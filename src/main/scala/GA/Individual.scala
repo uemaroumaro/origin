@@ -18,6 +18,8 @@ class Individual(length: Int){
       i = i + 1
     }
     individual
+
+
     
   }
   def setValue(value:String): Unit ={
