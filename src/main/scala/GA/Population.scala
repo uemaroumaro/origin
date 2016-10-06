@@ -10,6 +10,15 @@ class Population(size: Int, individual_length: Int) {
     setPopulation()
   }
 
+  def setPopulation(): Array[Individual] = {
+    var population = new Array[Individual](size)
+    var i = 0
+    while (i < size) {
+      population(i) = new Individual(individual_length)
+      i = i + 1
+    }
+    population
+  }
   def getSize(): Int = {
     size
   }
@@ -26,15 +35,6 @@ class Population(size: Int, individual_length: Int) {
     population(index).setValue(str)
   }
 
-  def setPopulation(): Array[Individual] = {
-    var population = new Array[Individual](size)
-    var i = 0
-    while (i < size) {
-      population(i) = new Individual(individual_length)
-      i = i + 1
-    }
-    population
-  }
 
   def getFitness(index: Int): Double = {
     population(index).getFitness()
@@ -71,6 +71,7 @@ class Population(size: Int, individual_length: Int) {
     var elite = new Individual(individual_length)
     population.foreach(individual => {
       if (max < individual.getFitness()) {
+        max=individual.getFitness()
         elite = individual
       }
     })

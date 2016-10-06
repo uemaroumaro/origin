@@ -1,5 +1,8 @@
-package GA
+package IslandModelGA
 
+import GA.SimpleGeneticOperator
+import GA.Population
+import IslandModelGA.Island
 /**
   * Created by kimura-lab on 16/09/30.
   */
@@ -20,7 +23,8 @@ class IslandModelGenericOperator extends SimpleGeneticOperator {
   //移住方法
   val IMMIGRATION_WAY = ""
   override def execute(): Unit = {
-
+    var island =new Island(ISLAND_NUM,INDIVIDUAL_NUM,INDIVIDUAL_LENGTH)
+    println()
   }
 
   def Immigration(): Unit = {
