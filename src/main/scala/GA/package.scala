@@ -8,7 +8,7 @@ import GA.{Individual, Population, SimpleGeneticOperator}
 //テスト用
 object GA_main {
   def main(args: Array[String]): Unit = {
-    var instance = new IslandModelGenericOperator()
+    var instance = new SimpleGeneticOperator()
     instance.execute()
   }
 }

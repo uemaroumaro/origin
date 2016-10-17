@@ -3,6 +3,7 @@ package IslandModelGA
 import GA.SimpleGeneticOperator
 import GA.Population
 import IslandModelGA.Island
+
 /**
   * Created by kimura-lab on 16/09/30.
   */
@@ -22,17 +23,24 @@ class IslandModelGenericOperator extends SimpleGeneticOperator {
   val ISLAND_NUM = 5
   //移住方法
   val IMMIGRATION_WAY = ""
+
   override def execute(): Unit = {
-    var island =new Island(ISLAND_NUM,INDIVIDUAL_NUM,INDIVIDUAL_LENGTH)
-    println()
+    var island = new Island(ISLAND_NUM, INDIVIDUAL_NUM, INDIVIDUAL_LENGTH)
+
   }
 
   def Immigration(): Unit = {
 
   }
 
-  def map_Selection(): Unit = {
-
+  def map_Selection(island: Island): Island = {
+    var i =0
+    var next_island= new Island(ISLAND_NUM, INDIVIDUAL_NUM, INDIVIDUAL_LENGTH)
+    while(i<IMMIGRATION_INTERVAL){
+     // next_island_setPopulation(i)=Selection(island.getIsland(i))
+    i=i+1
+    }
+    island
   }
 
   def map_Crossover(): Unit = {

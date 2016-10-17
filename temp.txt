@@ -1,0 +1,23 @@
+ //交叉確率
+   val CROSSOVER_RATE = 0.59
+  //個体数(偶数を設定する必要がある)
+   val INDIVIDUAL_NUM = 8
+  //個体長
+   val INDIVIDUAL_LENGTH = 5
+  //突然変異確率
+   val MUTATION_RATE = 0.0001
+  //移住間隔
+   val IMMIGRATION_INTERVAL = 5
+  //島の数
+   val ISLAND_NUM = 5
+  //移住方法
+   val IMMIGRATION_WAY = ""
+  def getIndividual(): String ={
+    var i = 0
+    var individual = ""
+    while (i < INDIVIDUAL_LENGTH) {
+      individual = individual + String.valueOf((fanctions.random(2)))
+      i = i + 1
+    }
+    individual
+  }

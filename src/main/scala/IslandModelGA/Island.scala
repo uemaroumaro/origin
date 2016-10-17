@@ -17,4 +17,12 @@ class Island(island_size: Int, population_size: Int, individual_length: Int) {
     }
     island
   }
+  def getIsland(): Array[Population]  ={
+    island
+  }
+  def getIsland(index:Int): Population ={
+    island(index)
+  }
+  def setPopulation(index: Int, population: Population): Unit = {
+  }
 }
