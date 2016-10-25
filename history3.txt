@@ -1,0 +1,174 @@
+    1  java -version
+    2  su
+    3  sudo hoge
+    4  su
+    5  sudo -u hdfs hdfs namenode -format
+    6  ls
+    7  sudo -u hdfs hdfs namenode -format
+    8  su
+    9  sudo mv ~/core-site.xml /etc/hadoop/conf/
+   10  vi /etc/hadoop/conf/core-site.xml 
+   11  su
+   12  kimyura
+   13  su
+   14  sudo hoge
+   15  su
+   16  sudo vi /etc/hadoop/conf/yarn-site.xml 
+   17  sudo -u hdfs hdfs namenode -format
+   18  service hadoop-hdfs-datanode start
+   19  sudo service hadoop-hdfs-datanode start
+   20  sudo service hadoop-yarn-nodemanager start
+   21  sudo service hadoop-hdfs-datanode stop
+   22  sudo service hadoop-yarn-nodemanager stop
+   23  sudo service hadoop-hdfs-datanode start
+   24  sudo vi /etc/hadoop/conf/core-site.xml 
+   25  sudo vi /etc/hadoop/conf/yarn-site.xml 
+   26  sudo service hadoop-hdfs-datanode stop
+   27  sudo service hadoop-hdfs-datanode start
+   28  sudo service hadoop-hdfs-datanode stop
+   29  sudo service hadoop-hdfs-datanode start
+   30  sudo vi /etc/hadoop/conf/core-site.xml 
+   31  sudo service hadoop-hdfs-datanode stop
+   32  sudo service hadoop-hdfs-datanode start
+   33  sudo -u hdfs hdfs dfsadmin -report
+   34  sudo service hadoop-hdfs-datanode stop
+   35  sudo service hadoop-hdfs-datanode start
+   36  sudo service hadoop-hdfs-datanode stop
+   37  sudo vi /etc/hosts
+   38  sudo service hadoop-hdfs-datanode start
+   39  sudo vi /etc/sysconfig/selinux 
+   40  history >history2.txt
+   41  sudo hoge
+   42  sudo -u hdfs hdfs namenode -format
+   43  su
+   44  sudo service hadoop-hdfs-datanode start
+   45  sudo service hadoop-yarn-nodemanager start
+   46  history grep|vi
+   47  ls
+   48  exit
+   49  sudo service hadoop-hdfs-datanode start
+   50  sudo vi /etc/hosts
+   51  sudo service hadoop-hdfs-datanode stop
+   52  sudo service hadoop-hdfs-datanode start
+   53  ping spark-master
+   54  systemctl is-enabled firewalld
+   55  systemctl is-enabled iptables
+   56  getenforce
+   57  sudo vi /etc/hadoop/conf/core-site.xml 
+   58  sudo vi /etc/hadoop/conf/hdfs-site.xml 
+   59  sudo service hadoop-hdfs-datanode stop
+   60  sudo service hadoop-hdfs-datanode start
+   61  history yarn
+   62  history |grep yarn
+   63  sudo service hadoop-yarn-nodemanager start
+   64  ls
+   65  ssh-keygen
+   66  mv .ssh/id_rsa ~/
+   67  ssh spark-master
+   68  exit
+   69  ssh spark-client
+   70  history |grep ser
+   71  sudo service hadoop-hdfs-datanode start
+   72  ssh spark-master
+   73  ssh 172.21.37.29
+   74  exit
+   75  sudo service hadoop-hdfs-datanode stop
+   76  sudo service hadoop-hdfs-datanode start
+   77  ssh spark-master
+   78  ssh-keygen -R spark-master
+   79  ssh spark-master
+   80  ssh -o 'StrictHostKeyChecking no' spark-master
+   81  ssh spark-master
+   82  ssh spark-worker01
+   83  ssh spark-master
+   84  ssh -o 'StrictHostKeyChecking no' spark-master
+   85  exit
+   86  sudo hadoop-yarn-nodemanager start
+   87  sudo service hadoop-yarn-nodemanager start
+   88  exit
+   89  sudo service hadoop-yarn-nodemanager stop
+   90  exit
+   91  sudo service hadoop-hdfs-datanode stop
+   92  exit
+   93  sudo service hadoop-hdfs-datanode start
+   94  exit
+   95  sudo service hadoo-yarn-nodemanager start
+   96  sudo service hadoop-yarn-nodemanager start
+   97  exit
+   98  cd ls
+   99  ダウンロード
+  100  cd ダウンロード
+  101  sudo tar zxvf ideaIC-2016.2.4.tar.gz -C /opt/
+  102  sudo sh /opt/idea-IC-162.2032.8/bin/idea.sh
+  103  centos ta-minaru centos ta-minarcentos ta-minaru centos ta-minarcentos ta-minaru centos ta-minarcentos ta-minaru centos ta-minarcentos ta-minaru centos ta-minarcentos ta-minaru centos ta-minar
+  104  cd ダウンロード
+  105  ls
+  106  sudo tar zxvf spark-2.0.0-bin-hadoop2.7.tgz -C /opt/
+  107  cd /opt/
+  108  ls
+  109  ln -help
+  110  ln --help
+  111  ln -s spark-2.0.0-bin-hadoop2.7 spark
+  112  sudo ln -s spark-2.0.0-bin-hadoop2.7 spark
+  113  sudo emcas /etc/profile.d/spark.sh
+  114  sudo yum install emacs
+  115  sudo emcas /etc/profile.d/spark.sh
+  116  sudo emacs /etc/profile.d/spark.sh
+  117  source /etc/profile
+  118  ls
+  119  cd 
+  120  source /etc/profile
+  121  sudo emacs /etc/profile.d/spark.sh
+  122  source /etc/profile
+  123  ${SPARK_HOME}/bin/spark-submit --version
+  124  cd ダウンロード
+  125  ls
+  126  sudo tar zxvf sbt-0.13.9.tgz -C /opt/
+  127  sudo 
+  128  sudo emacs /etc/profile.d/sbt.sh
+  129  source /etc/profile
+  130  sbt about
+  131  cd ~
+  132  ls
+  133  cd spark
+  134  ls
+  135  cd spark-sbt-tamplate/
+  136  sbt assembly
+  137  ls
+  138  xmodmap
+  139  xmodmap -pp
+  140  open .xmodmap
+  141  cd ~
+  142  open .xmodmap
+  143  touch .xmodmap
+  144  open .xmodmap
+  145  xmodmap -pke 
+  146  xmodmap -pm
+  147  xev
+  148  sudo yum install easystroke
+  149  emacs /etc/X11/xorg.conf
+  150  history |grep spark
+  151  ${SPARK_HOME}/bin/spark-shell
+  152  ls
+  153  ls -a
+  154  cat git
+  155  ssh -T git@github.com
+  156  exit
+  157  ${SPARK_HOME}/bin/spark-shell
+  158  export XMODIFIERS="@im=ibus"
+  159  export GTK_IM_MODULE="ibus"
+  160  export QT_IM_MODULE="xim"
+  161  ${SPARK_HOME}/bin/spark-shell
+  162  cd spark/SparkGA/
+  163  sbt assembly
+  164  history |grep ${SPARK_HOME}
+  165  history |grep SPARK_HOME
+  166  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA/SparkGA_main
+  167  ${SPARK_HOME}/bin/spark-submit --master local --name test --class ~/spark/SparkGA/SparkGA_main
+  168  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA.SparkGA_main ~/spark/SparkGA//target/scala-2.10/SparkGA-assembly-0.1.jar 
+  169  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA.SparkGA_main ~/spark/SparkGA//target/scala-2.10/SparkGA-assembly-0.1.jar --driver-jana-options "Xdebug" -agentlib:jdwp=transpaort==dt_socker,suspend=y,server=y,address=9876
+  170  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA.SparkGA_main ~/spark/SparkGA//target/scala-2.10/SparkGA-assembly-0.1.jar --driver-java-options "-Xdebug -agentlib:jdwp=transport=dt_socket,suspend=y,server=y,address=9876
+i
+  171  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA.SparkGA_main ~/spark/SparkGA//target/scala-2.10/SparkGA-assembly-0.1.jar --driver-java-options "-Xdebug -agentlib:jdwp=transport=dt_socket,suspend=y,server=y,address=9876"
+  172  ${SPARK_HOME}/bin/spark-submit --master local --name test --class SparkGA.SparkGA_main --driver-java-options "-Xdebug -agentlib:jdwp=transport=dt_socket,suspend=y,server=y,address=9876" ~/spark/SparkGA//target/scala-2.10/SparkGA-assembly-0.1.jar 
+  173  history >history3.txt

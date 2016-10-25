@@ -1,18 +1,30 @@
- //交叉確率
-   val CROSSOVER_RATE = 0.59
+  
+object fanctions {
+  def random(max: Int): Int = {
+    (Math.random() * max).asInstanceOf[Int]
+  }
+}
+
+//交叉確率
+  val CROSSOVER_RATE = 0.59
   //個体数(偶数を設定する必要がある)
-   val INDIVIDUAL_NUM = 8
+  val INDIVIDUAL_NUM = 8
   //個体長
-   val INDIVIDUAL_LENGTH = 5
+  val INDIVIDUAL_LENGTH = 5
   //突然変異確率
-   val MUTATION_RATE = 0.0001
+  val MUTATION_RATE = 0.0001
   //移住間隔
-   val IMMIGRATION_INTERVAL = 5
+  val IMMIGRATION_INTERVAL = 5
   //島の数
-   val ISLAND_NUM = 5
+  val ISLAND_NUM = 5
   //移住方法
-   val IMMIGRATION_WAY = ""
-  def getIndividual(): String ={
+  val IMMIGRATION_WAY = ""
+
+  def FitnessFunction(p:Int): Int = {
+      31*p-p*p
+  }
+  //個体長INDIVIDUAL_NUの個体を一つ生成
+  def getIndividual(): String = {
     var i = 0
     var individual = ""
     while (i < INDIVIDUAL_LENGTH) {
@@ -21,3 +33,21 @@
     }
     individual
   }
+
+  //個体数INDIVIDUAL_NUMの個体の集団を返す
+  def init(): Seq[String] = {
+    var individuals = Seq(getIndividual())
+    for (i <- 1 to INDIVIDUAL_NUM - 1) {
+      individuals = getIndividual() +: individuals
+    }
+    individuals
+  }
+
+  def makeIslands(): Seq[Seq[String]] = {
+    var islands = Seq(init())
+    for (i <- 1 to ISLAND_NUM - 1) {
+      islands = init() +: islands
+    }
+    islands
+  }
+val IslandsRDD = sc.makeRDD(makeIslands(), ISLAND_NUM)
