@@ -91,6 +91,9 @@ class GeneticOperator {
     val IslandsRDD2 = IslandsRDD.map(island => {
       var islandData = island
       for (i <- 0 to 100) {
+        var elite_candidates = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2))).reverse
+
+
         var selected_individuals = Seq.empty[String]
         var total_fitness = 0.0
         islandData.foreach(individual => {
@@ -174,8 +177,13 @@ class GeneticOperator {
           mutationed_individuals = mutationed_individuals :+ target_str
         }
         islandData = mutationed_individuals
+        //eri-tomodosi
+        islandData = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
+        for (i <- 0 to GA_conf.ELITE_NUM) {
+          islandData = islandData.updated(i, elite_candidates((elite_candidates.length - 1) - i))
+        }
       }
-      islandData
+
     })
     IslandsRDD.collect().foreach(println)
     IslandsRDD2.collect().foreach(println)

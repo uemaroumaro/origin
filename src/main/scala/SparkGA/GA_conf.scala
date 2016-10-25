@@ -18,5 +18,7 @@ object GA_conf extends Serializable{
   val ISLAND_NUM = 5
   //移住方法
   val IMMIGRATION_WAY = ""
+  //eri-tonokazu
+  val ELITE_NUM = 1
 
 }

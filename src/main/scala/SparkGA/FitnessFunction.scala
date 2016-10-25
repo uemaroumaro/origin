@@ -6,7 +6,7 @@ package SparkGA
 object FitnessFunction extends Serializable{
   def getFanc(): (Int) => Int = {
     (p: Int) => {
-      p*p
+      31*p-p*p
     }
   }
 }
