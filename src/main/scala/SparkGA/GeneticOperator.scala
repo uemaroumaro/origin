@@ -175,6 +175,7 @@ class GeneticOperator {
         }
         islandData = mutationed_individuals
       }
+      islandData
     })
     IslandsRDD.collect().foreach(println)
     IslandsRDD2.collect().foreach(println)
