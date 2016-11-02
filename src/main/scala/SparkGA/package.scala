@@ -9,7 +9,7 @@ import GA.SimpleGeneticOperator
 //テスト用
 object SparkGA_main {
   def main(args: Array[String]): Unit = {
-    var instance = new GeneticOperator()
+    var instance = new SparkGAExecuter()
     instance.execute()
   }
 }
