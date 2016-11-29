@@ -7,15 +7,15 @@ object GeneticOperator extends Serializable {
   //交叉確率
   val CROSSOVER_RATE = 0.70
   //個体数(偶数を設定する必要がある)
-  val INDIVIDUAL_NUM = 100
+  val INDIVIDUAL_NUM = 1000
   //個体長
-  val INDIVIDUAL_LENGTH = 8
+  val INDIVIDUAL_LENGTH = 6
   //突然変異確率
-  val MUTATION_RATE = 0.001
+  val MUTATION_RATE = 0.0001
   //移住間隔
   val IMMIGRATION_INTERVAL = 1000
-  //移住間隔
-  val IMMIGRATION_TIMES = 2
+  //移住回数
+  val IMMIGRATION_TIMES = 10
   //島の数
   val ISLAND_NUM = 5
   //移住方法

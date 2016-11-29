@@ -10,7 +10,7 @@ class SparkGAExecuter {
 
 
   val conf = new SparkConf()
-  val sc = new SparkContext("local", "partition-example")
+  val sc = new SparkContext("yarn-cluster", "SparkGA")
 
   /* def FitnessFunction(p:Int): Int = {
        31*p-p*p
@@ -73,50 +73,57 @@ class SparkGAExecuter {
 
   def execute(): Unit = {
 
-    var IslandsRDD = sc.makeRDD(makeIslands(), GeneticOperator.ISLAND_NUM)
-    for (k <- 1 to GeneticOperator.IMMIGRATION_TIMES) {
-      val IslandsRDD2 = IslandsRDD.map(island => {
-        var islandData = island
-        for (i <- 0 to GeneticOperator.IMMIGRATION_INTERVAL) {
-          //エリート保存
-          var elite_candidates = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
-          //選択
-          islandData = GeneticOperator.Selection(islandData)
-          //交叉
-          islandData = GeneticOperator.Crossover(islandData)
-          //突然変異
-          islandData = GeneticOperator.Mutation(islandData)
-          //エリート戻し
-          islandData = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
-          for (i <- 0 to GeneticOperator.ELITE_NUM - 1) {
-            islandData = islandData.updated(i, elite_candidates((elite_candidates.length - 1) - i))
+      val start = System.currentTimeMillis()
+    try {
+      var IslandsRDD = sc.makeRDD(makeIslands(), GeneticOperator.ISLAND_NUM)
+      for (k <- 1 to GeneticOperator.IMMIGRATION_TIMES) {
+        val IslandsRDD2 = IslandsRDD.map(island => {
+          var islandData = island
+          for (i <- 0 to GeneticOperator.IMMIGRATION_INTERVAL) {
+            //エリート保存
+            var elite_candidates = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
+            //選択
+            islandData = GeneticOperator.Selection(islandData)
+            //交叉
+            islandData = GeneticOperator.Crossover(islandData)
+            //突然変異
+            islandData = GeneticOperator.Mutation(islandData)
+            //エリート戻し
+            islandData = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
+            for (i <- 0 to GeneticOperator.ELITE_NUM - 1) {
+              islandData = islandData.updated(i, elite_candidates((elite_candidates.length - 1) - i))
+            }
           }
-        }
-        islandData
+          islandData
+        })
+        //移住(移住割合の実装方法は考えるべき)
+
+        val IslandsRDD3 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
+          pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
+        }))
+        val IslandsRDD4 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
+          if ((pno + 1) < GeneticOperator.ISLAND_NUM) {
+            (pno + 1) -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
+          } else {
+            0 -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
+          }
+        }))
+        val islandsRDD5 = IslandsRDD3.cogroup(IslandsRDD4).mapPartitionsWithIndex((n, i) => i.map(s => {
+          s._2._1.head
+        } ++ {
+          s._2._2.head
+        }))
+        IslandsRDD = islandsRDD5
+      }
+
+      //集計
+      IslandsRDD = IslandsRDD.map(s => {
+        s.map(value => Integer.parseInt(value, 2).toString)
       })
-      //移住(移住割合の実装方法は考えるべき)
-
-      val IslandsRDD3 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
-        pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
-      }))
-      val IslandsRDD4 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
-        if ((pno + 1) < GeneticOperator.ISLAND_NUM) {
-          (pno + 1) -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
-        } else {
-          0 -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
-        }
-      }))
-      val islandsRDD5 = IslandsRDD3.cogroup(IslandsRDD4).mapPartitionsWithIndex((n, i) => i.map(s => {
-        s._2._1.head
-      } ++ {
-        s._2._2.head
-      }))
-      IslandsRDD = islandsRDD5
+      IslandsRDD.glom().mapPartitionsWithIndex((n, i) => i.map(a => "pno[%d]: %s".format(n, a.mkString(", "))), true).collect.foreach(println)
+    } finally {
+      sc.stop()
     }
-
-    //集計
-    IslandsRDD.glom().mapPartitionsWithIndex((n, i) => i.map(a => "pno[%d]: %s".format(n, a.mkString(", "))), true).collect.foreach(println)
-
-
+    println("実行時間 : " + (System.currentTimeMillis() - start) + "msec")
   }
 }
