@@ -13,7 +13,7 @@ object GeneticOperator extends Serializable {
   //突然変異確率
   val MUTATION_RATE = 0.0001
   //移住間隔
-  val IMMIGRATION_INTERVAL = 1000
+  val IMMIGRATION_INTERVAL = 100
   //移住回数
   val IMMIGRATION_TIMES = 10
   //島の数
@@ -31,7 +31,7 @@ object GeneticOperator extends Serializable {
       var selected_individuals = Seq.empty[String]
       var total_fitness = 0.0
       islandData.foreach(individual => {
-        total_fitness = total_fitness + FitnessFunction.getFanc()(Integer.parseInt(individual, 2))
+        total_fitness = total_fitness + FitnessFunction.summaryFitness(individual,"Rastrigin", "indiv", 10)
       })
       var roulette = Math.random() * total_fitness //0~total_fitness
       var roulette_val = 0.0 //
@@ -44,7 +44,7 @@ object GeneticOperator extends Serializable {
         isEnded = false
         islandData.foreach(individual => {
           if (!isEnded) {
-            roulette_val = roulette_val + FitnessFunction.getFanc()(Integer.parseInt(individual, 2))
+            roulette_val = roulette_val + FitnessFunction.summaryFitness(individual,"Rastrigin", "indiv", 10)
             //roulette_val = roulette_val + (Integer.parseInt(individual, 2)*31-Integer.parseInt(individual, 2)*Integer.parseInt(individual, 2))
             if (roulette_val > roulette) {
               selected_individuals = selected_individuals :+ individual

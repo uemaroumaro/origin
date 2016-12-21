@@ -2,6 +2,7 @@ package SparkGA
 
 import IslandModelGA.{Island, IslandModelGenericOperator}
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.storage.StorageLevel
 
 /**
   * Created by kimura-lab on 16/09/23.
@@ -10,7 +11,7 @@ class SparkGAExecuter {
 
 
   val conf = new SparkConf()
-  val sc = new SparkContext("yarn-cluster", "SparkGA")
+  val sc = new SparkContext("yarn-cluster","SparkGA")
 
   /* def FitnessFunction(p:Int): Int = {
        31*p-p*p
@@ -81,7 +82,7 @@ class SparkGAExecuter {
           var islandData = island
           for (i <- 0 to GeneticOperator.IMMIGRATION_INTERVAL) {
             //エリート保存
-            var elite_candidates = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
+            var elite_candidates = islandData.sortBy(value => FitnessFunction.summaryFitness(value,"Rastrigin", "indiv", 10)))
             //選択
             islandData = GeneticOperator.Selection(islandData)
             //交叉
@@ -89,7 +90,7 @@ class SparkGAExecuter {
             //突然変異
             islandData = GeneticOperator.Mutation(islandData)
             //エリート戻し
-            islandData = islandData.sortBy(value => FitnessFunction.getFanc()(Integer.parseInt(value, 2)))
+            islandData = islandData.sortBy(value => FitnessFunction.summaryFitness(value,"Rastrigin", "indiv", 10)))
             for (i <- 0 to GeneticOperator.ELITE_NUM - 1) {
               islandData = islandData.updated(i, elite_candidates((elite_candidates.length - 1) - i))
             }
@@ -97,30 +98,28 @@ class SparkGAExecuter {
           islandData
         })
         //移住(移住割合の実装方法は考えるべき)
-
-        val IslandsRDD3 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
-          pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
-        }))
-        val IslandsRDD4 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
+        /*val IslandsRDD3 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.map(island => {
+          (pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3),1)
+        }))*/
+        val IslandsRDD3 = IslandsRDD2.mapPartitionsWithIndex((pno, partition) => partition.flatMap(island => {
           if ((pno + 1) < GeneticOperator.ISLAND_NUM) {
-            (pno + 1) -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
+            Seq((pno + 1) -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3), pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3))
           } else {
-            0 -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3)
+            Seq(0 -> island.drop(GeneticOperator.INDIVIDUAL_NUM * 2 / 3), pno -> island.take(GeneticOperator.INDIVIDUAL_NUM * 2 / 3))
           }
         }))
-        val islandsRDD5 = IslandsRDD3.cogroup(IslandsRDD4).mapPartitionsWithIndex((n, i) => i.map(s => {
-          s._2._1.head
-        } ++ {
-          s._2._2.head
+
+        val islandsRDD5 = IslandsRDD3.groupByKey(GeneticOperator.ISLAND_NUM).mapPartitionsWithIndex((n, i) => i.map(s => {
+          s._2.head ++ s._2.last
         }))
         IslandsRDD = islandsRDD5
       }
+        //集計
+        IslandsRDD = IslandsRDD.map(s => {
+          s.map(value => Integer.parseInt(value, 2).toString)
+        })
+        IslandsRDD.glom().mapPartitionsWithIndex((n, i) => i.map(a => "pno[%d]: %s".format(n, a.mkString(", "))), true).collect.foreach(println)
 
-      //集計
-      IslandsRDD = IslandsRDD.map(s => {
-        s.map(value => Integer.parseInt(value, 2).toString)
-      })
-      IslandsRDD.glom().mapPartitionsWithIndex((n, i) => i.map(a => "pno[%d]: %s".format(n, a.mkString(", "))), true).collect.foreach(println)
     } finally {
       sc.stop()
     }
